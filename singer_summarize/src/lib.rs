@@ -4,7 +4,7 @@ use serde::Serialize;
 use serde_json::Value;
 use singer_rust::message::{BatchEncoding, MessageReader};
 
-pub mod args;
+pub mod cli;
 
 #[derive(Serialize)]
 pub struct StateStats {

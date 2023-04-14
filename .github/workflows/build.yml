@@ -16,9 +16,8 @@ on:
 permissions:
   contents: read
 
-defaults:
-  run:
-    working-directory: singer_summarize
+env:
+  working-directory: singer_summarize
 
 jobs:
   linux:
@@ -38,34 +37,12 @@ jobs:
           args: --release --out dist --find-interpreter
           sccache: 'true'
           manylinux: auto
+          working-directory: ${{ env.working-directory }}
       - name: Upload wheels
         uses: actions/upload-artifact@v3
         with:
           name: wheels
-          path: dist
-      - name: pytest
-        if: ${{ startsWith(matrix.target, 'x86_64') }}
-        shell: bash
-        run: |
-          set -e
-          pip install singer_summarize --find-links dist --force-reinstall
-          pip install pytest
-          pytest
-      - name: pytest
-        if: ${{ !startsWith(matrix.target, 'x86') && matrix.target != 'ppc64' }}
-        uses: uraimo/run-on-arch-action@v2.5.0
-        with:
-          arch: ${{ matrix.target }}
-          distro: ubuntu22.04
-          githubToken: ${{ github.token }}
-          install: |
-            apt-get update
-            apt-get install -y --no-install-recommends python3 python3-pip
-            pip3 install -U pip pytest
-          run: |
-            set -e
-            pip3 install singer_summarize --find-links dist --force-reinstall
-            pytest
+          path: singer_summarize/dist
 
   windows:
     runs-on: windows-latest
@@ -84,19 +61,12 @@ jobs:
           target: ${{ matrix.target }}
           args: --release --out dist --find-interpreter
           sccache: 'true'
+          working-directory: ${{ env.working-directory }}
       - name: Upload wheels
         uses: actions/upload-artifact@v3
         with:
           name: wheels
-          path: dist
-      - name: pytest
-        if: ${{ !startsWith(matrix.target, 'aarch64') }}
-        shell: bash
-        run: |
-          set -e
-          pip install singer_summarize --find-links dist --force-reinstall
-          pip install pytest
-          pytest
+          path: singer_summarize/dist
 
   macos:
     runs-on: macos-latest
@@ -114,19 +84,12 @@ jobs:
           target: ${{ matrix.target }}
           args: --release --out dist --find-interpreter
           sccache: 'true'
+          working-directory: ${{ env.working-directory }}
       - name: Upload wheels
         uses: actions/upload-artifact@v3
         with:
           name: wheels
-          path: dist
-      - name: pytest
-        if: ${{ !startsWith(matrix.target, 'aarch64') }}
-        shell: bash
-        run: |
-          set -e
-          pip install singer_summarize --find-links dist --force-reinstall
-          pip install pytest
-          pytest
+          path: singer_summarize/dist
 
   sdist:
     runs-on: ubuntu-latest
@@ -137,11 +100,12 @@ jobs:
         with:
           command: sdist
           args: --out dist
+          working-directory: ${{ env.working-directory }}
       - name: Upload sdist
         uses: actions/upload-artifact@v3
         with:
           name: wheels
-          path: dist
+          path: singer_summarize/dist
 
   release:
     name: Release

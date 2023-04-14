@@ -12,6 +12,14 @@ cargo build -p singer_summarize --release
 
 This will create a binary at `target/release/singer-summarize`.
 
+### Python
+
+```shell
+mature build --release
+```
+
+This will create a Python wheel at `target/wheels/`.
+
 ## Usage
 
 Copy the binary to your `PATH`:

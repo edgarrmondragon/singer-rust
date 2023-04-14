@@ -4,10 +4,10 @@ use clap::Parser;
 use serde_json::to_string_pretty;
 
 use singer_rust::MessageReader;
-use singer_summarize::{args, StatsReader};
+use singer_summarize::{cli, StatsReader};
 
 pub fn main() {
-    let _args = args::Args::parse();
+    let _args = cli::Args::parse();
 
     let mut reader = StatsReader::new();
     let buffer = io::BufReader::new(io::stdin());

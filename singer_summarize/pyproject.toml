@@ -1,0 +1,28 @@
+[build-system]
+build-backend = "maturin"
+requires = ["maturin>=0.14,<0.15"]
+
+[project]
+name = "singer_summarize"
+version = "0.0.1"
+description = "Singer target that summarizes a tap's output"
+authors = [{ name = "Edgar Ramirez", email = "edgarrm358@gmail.com" }]
+maintainers = [{ name = "Edgar Ramirez", email = "edgarrm358@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.7"
+license = { file = "../LICENSE" }
+keywords = ["singer.io", "target"]
+classifiers = [
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Rust",
+]
+urls = { repository = "https://github.com/edgarrmondragon/singer-rust" }
+
+[tool.maturin]
+bindings = "bin"
+strip = true

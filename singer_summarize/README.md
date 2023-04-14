@@ -2,6 +2,16 @@
 
 A POC Singer target that summarizes a tap's output.
 
+## Installation
+
+### From PyPI
+
+I recommend using [pipx](https://pypa.github.io/pipx/) to install this package:
+
+```shell
+pipx install singer-summarize
+```
+
 ## Build
 
 ### Binary

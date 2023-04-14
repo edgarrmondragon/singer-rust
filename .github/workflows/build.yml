@@ -3,13 +3,11 @@
 #
 #    maturin generate-ci github --pytest
 #
-name: CI
+name: Build singer-summarize
 
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: [main]
     tags:
       - '*'
   pull_request:
@@ -17,6 +15,10 @@ on:
 
 permissions:
   contents: read
+
+defaults:
+  run:
+    working-directory: singer_summarize
 
 jobs:
   linux:

@@ -1,5 +1,5 @@
 [workspace]
-members = ["singer_rust"]
+members = ["singer_rust", "singer_summarize"]
 
 [workspace.package]
 edition = "2021"

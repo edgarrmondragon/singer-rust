@@ -1,4 +1,4 @@
-use std::io::{self, Write};
+use std::io::{self, BufRead, BufReader, Read, Write};
 
 use serde_json;
 
@@ -59,6 +59,27 @@ pub trait MessageReader {
         }
     }
 
+    /// Process a stream of Singer messages.
+    ///
+    /// # Arguments
+    ///
+    /// * `reader` - A reader that implements `io::BufRead`.
+    fn process_lines(&mut self, buffer: BufReader<impl Read>) -> Result<(), serde_json::Error> {
+        for line in buffer.lines() {
+            let line = line.expect("read input line");
+            self.process_line(&line).expect("process input line");
+        }
+        Ok(())
+    }
+
+    /// Process a single Singer `RECORD` message.
+    ///
+    /// # Arguments
+    ///
+    /// * `stream` - The stream name.
+    /// * `record` - An individual stream record.
+    /// * `time_extracted` - Time the record was extracted.
+    /// * `version` - Stream version for `FULL_TABLE` replication.
     fn process_record(
         &mut self,
         stream: String,
@@ -67,6 +88,14 @@ pub trait MessageReader {
         version: u64,
     ) -> Result<(), serde_json::Error>;
 
+    /// Process a single Singer `SCHEMA` message.
+    ///
+    /// # Arguments
+    ///
+    /// * `stream` - The stream name.
+    /// * `schema` - The JSON schema of the stream.
+    /// * `key_properties` - The primary key properties of the stream.
+    /// * `bookmark_properties` - The replication key properties of the stream for `INCREMENTAL` replication.
     fn process_schema(
         &mut self,
         stream: String,
@@ -75,14 +104,32 @@ pub trait MessageReader {
         bookmark_properties: Vec<String>,
     ) -> Result<(), serde_json::Error>;
 
+    /// Process a single Singer `STATE` message.
+    ///
+    /// # Arguments
+    ///
+    /// * `value` - The state payload.
     fn process_state(&mut self, value: serde_json::Value) -> Result<(), serde_json::Error>;
 
+    /// Process a single Singer `ACTIVATE_VERSION` message.
+    ///
+    /// # Arguments
+    ///
+    /// * `stream` - The stream name.
+    /// * `version` - The version of the stream.
     fn process_activate_version(
         &mut self,
         stream: String,
         version: u64,
     ) -> Result<(), serde_json::Error>;
 
+    /// Process a single Singer `BATCH` message.
+    ///
+    /// # Arguments
+    ///
+    /// * `stream` - The stream name.
+    /// * `manifest` - The manifest of the batch.
+    /// * `encoding` - The encoding of the batch.
     fn process_batch(
         &mut self,
         stream: String,

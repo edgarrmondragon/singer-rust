@@ -1,0 +1,4 @@
+{"type": "SCHEMA", "stream": "example", "schema": {"properties": {"id": {"type": "integer"}, "updated_at": {"type": "string", "format": "date-time"}}}}
+{"type": "RECORD", "stream": "example", "record": {"id": 1, "updated_at": "2023-04-10T00:00:00Z"}}
+{"type": "RECORD", "stream": "example", "record": {"id": 2, "updated_at": "2023-04-10T00:00:10Z"}}
+{"type": "STATE", "value": {"bookmarks": {"example": {"updated_at": "2023-04-10T00:00:10Z"}}}}

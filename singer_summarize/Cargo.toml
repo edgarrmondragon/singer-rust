@@ -1,6 +1,6 @@
 [package]
 name = "singer_summarize"
-version = "0.0.1"
+version = { workspace = true }
 edition = { workspace = true }
 rust-version = { workspace = true }
 documentation = "https://github.com/edgarrmondragon/singer-rust"

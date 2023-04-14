@@ -33,3 +33,7 @@ replacements:
 - path: Cargo.toml
   find: ^version = ".*"$
   replace: version = "{{.VersionNoPrefix}}"
+custom:
+- key: Issue
+  type: int
+  minInt: 1

@@ -1,0 +1,8 @@
+[workspace]
+members = ["singer_rust"]
+
+[workspace.package]
+edition = "2021"
+rust-version = "1.67"
+repository = "https://github.com/edgarrmondragon/singer-rust"
+authors = ["Edgar Ramírez <edgarrm358@gmail.com"]

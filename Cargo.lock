@@ -270,7 +270,7 @@ dependencies = [
 
 [[package]]
 name = "singer_summarize"
-version = "0.0.1-a3"
+version = "0.0.1-a4"
 dependencies = [
  "clap",
  "serde",

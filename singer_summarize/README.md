@@ -25,7 +25,7 @@ This will create a binary at `target/release/singer-summarize`.
 ### Python
 
 ```shell
-mature build --release
+maturin build --release
 ```
 
 This will create a Python wheel at `target/wheels/`.

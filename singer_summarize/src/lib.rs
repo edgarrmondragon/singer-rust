@@ -9,7 +9,7 @@ pub mod cli;
 #[derive(Serialize)]
 pub struct StateStats {
     count: u32,
-    last_seen: Value,
+    pub last_seen: Value,
 }
 
 #[derive(Serialize)]
@@ -34,7 +34,7 @@ impl Counter {
 #[derive(Serialize)]
 pub struct Stats {
     streams: HashMap<String, Counter>,
-    state: StateStats,
+    pub state: StateStats,
 }
 
 impl Stats {

@@ -2,7 +2,7 @@
 members = ["singer_rust", "singer_summarize"]
 
 [workspace.package]
-version = "0.0.1-a4"
+version = "0.0.1-a5"
 edition = "2021"
 rust-version = "1.67"
 repository = "https://github.com/edgarrmondragon/singer-rust"

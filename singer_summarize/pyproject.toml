@@ -4,7 +4,7 @@ requires = ["maturin>=0.14,<0.15"]
 
 [project]
 name = "singer_summarize"
-version = "0.0.1-a4"
+version = "0.0.1-a5"
 description = "Singer target that summarizes a tap's output"
 authors = [{ name = "Edgar Ramirez", email = "edgarrm358@gmail.com" }]
 maintainers = [{ name = "Edgar Ramirez", email = "edgarrm358@gmail.com" }]

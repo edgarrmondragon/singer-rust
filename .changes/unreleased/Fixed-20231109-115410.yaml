@@ -1,0 +1,5 @@
+kind: Fixed
+body: Do not pretty print summary
+time: 2023-11-09T11:54:10.140472-06:00
+custom:
+  Issue: "36"

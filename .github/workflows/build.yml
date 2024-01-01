@@ -44,7 +44,7 @@ jobs:
           manylinux: auto
           working-directory: ${{ env.working-directory }}
       - name: Upload wheels
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: wheels
           path: singer_summarize/dist
@@ -68,7 +68,7 @@ jobs:
           sccache: 'true'
           working-directory: ${{ env.working-directory }}
       - name: Upload wheels
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: wheels
           path: singer_summarize/dist
@@ -91,7 +91,7 @@ jobs:
           sccache: 'true'
           working-directory: ${{ env.working-directory }}
       - name: Upload wheels
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: wheels
           path: singer_summarize/dist
@@ -107,7 +107,7 @@ jobs:
           args: --out dist
           working-directory: ${{ env.working-directory }}
       - name: Upload sdist
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: wheels
           path: singer_summarize/dist

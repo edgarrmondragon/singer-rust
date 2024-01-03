@@ -44,9 +44,9 @@ jobs:
           manylinux: auto
           working-directory: ${{ env.working-directory }}
       - name: Upload wheels
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: wheels
+          name: wheels-linux-${{ matrix.target }}
           path: singer_summarize/dist
 
   windows:
@@ -68,9 +68,9 @@ jobs:
           sccache: 'true'
           working-directory: ${{ env.working-directory }}
       - name: Upload wheels
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: wheels
+          name: wheels-windows-${{ matrix.target }}
           path: singer_summarize/dist
 
   macos:
@@ -91,9 +91,9 @@ jobs:
           sccache: 'true'
           working-directory: ${{ env.working-directory }}
       - name: Upload wheels
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: wheels
+          name: wheels-macos-${{ matrix.target }}
           path: singer_summarize/dist
 
   sdist:
@@ -107,20 +107,21 @@ jobs:
           args: --out dist
           working-directory: ${{ env.working-directory }}
       - name: Upload sdist
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: wheels
+          name: wheels-sdist
           path: singer_summarize/dist
 
   release:
     name: Release
     runs-on: ubuntu-latest
-    if: "startsWith(github.ref, 'refs/tags/')"
     needs: [linux, windows, macos, sdist]
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: wheels
+          pattern: wheels-*
           path: dist
+          merge-multiple: true
       - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@v1.8.11
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: pypa/gh-action-pypi-publish@release/v1.8

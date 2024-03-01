@@ -15,7 +15,7 @@ license = "MIT"
 name = "singer-summarize"
 
 [dependencies]
-clap = { version = "4.4.18", features = ["derive"] }
+clap = { version = "4.5.1", features = ["derive"] }
 serde = "1.0.196"
 serde_json = "1.0.113"
 singer_rust = { path = "../singer_rust" }

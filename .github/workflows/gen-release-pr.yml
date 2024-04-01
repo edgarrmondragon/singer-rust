@@ -54,7 +54,7 @@ jobs:
 
     - name: Draft Release
       id: draft-release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         draft: true
         body_path: ".changes/${{ steps.latest.outputs.output }}.md"
@@ -64,7 +64,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v6.0.1
+      uses: peter-evans/create-pull-request@v6.0.2
       with:
         title: "chore: Release ${{ steps.latest.outputs.output }}"
         branch: release/${{ steps.latest.outputs.output }}

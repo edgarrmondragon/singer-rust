@@ -21,13 +21,20 @@ pub struct ParquetSink {
 impl ParquetSink {
     pub fn new(
         schema_message: &Message,
-        output_path: PathBuf,
+        base_dir: &PathBuf,
         batch_size: usize,
     ) -> Result<Self, Error> {
+        let stream_name = match schema_message {
+            Message::SCHEMA { stream, .. } => stream,
+            _ => return Err(Error::Schema("Expected SCHEMA message".to_string())),
+        };
+
         let schema = singer_schema_to_arrow(schema_message)?;
         let props = WriterProperties::builder()
             .set_compression(Compression::SNAPPY)
             .build();
+
+        let output_path = base_dir.join(format!("{}.parquet", stream_name));
 
         Ok(Self {
             schema,
@@ -85,7 +92,7 @@ mod tests {
     #[test]
     fn test_parquet_sink() {
         let temp_dir = tempdir().unwrap();
-        let output_path = temp_dir.path().join("test.parquet");
+        let base_dir = temp_dir.path().to_path_buf();
 
         let schema_message = Message::SCHEMA {
             stream: "test".to_string(),
@@ -104,7 +111,7 @@ mod tests {
             bookmark_properties: vec![],
         };
 
-        let mut sink = ParquetSink::new(&schema_message, output_path.clone(), 2).unwrap();
+        let mut sink = ParquetSink::new(&schema_message, &base_dir, 2).unwrap();
 
         // Add some records
         sink.add_record(Message::RECORD {
@@ -132,6 +139,7 @@ mod tests {
         sink.flush().unwrap();
 
         // Verify file exists and has content
+        let output_path = base_dir.join("test.parquet");
         assert!(output_path.exists());
         assert!(output_path.metadata().unwrap().len() > 0);
     }

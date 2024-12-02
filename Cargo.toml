@@ -1,5 +1,5 @@
 [workspace]
-members = ["singer_rust", "singer_summarize"]
+members = [ "singer_arrow","singer_rust", "singer_summarize"]
 
 [workspace.package]
 version = "0.0.1-a6"

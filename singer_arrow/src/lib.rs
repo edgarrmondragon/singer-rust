@@ -113,8 +113,8 @@ impl ToRecordBatch for Vec<Message> {
     }
 }
 
-pub mod target;
-pub use target::ParquetTarget;
+pub mod sink;
+pub use sink::ParquetSink;
 
 #[cfg(test)]
 mod tests {

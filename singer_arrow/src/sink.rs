@@ -10,7 +10,7 @@ use singer_rust::message::Message;
 
 use crate::{singer_schema_to_arrow, Error, ToRecordBatch};
 
-pub struct ParquetTarget {
+pub struct ParquetSink {
     schema: ArrowSchema,
     writer_properties: WriterProperties,
     output_path: PathBuf,
@@ -18,7 +18,7 @@ pub struct ParquetTarget {
     current_batch: Vec<Message>,
 }
 
-impl ParquetTarget {
+impl ParquetSink {
     pub fn new(
         schema_message: &Message,
         output_path: PathBuf,
@@ -83,7 +83,7 @@ mod tests {
     use tempfile::tempdir;
 
     #[test]
-    fn test_parquet_target() {
+    fn test_parquet_sink() {
         let temp_dir = tempdir().unwrap();
         let output_path = temp_dir.path().join("test.parquet");
 
@@ -104,34 +104,32 @@ mod tests {
             bookmark_properties: vec![],
         };
 
-        let mut target = ParquetTarget::new(&schema_message, output_path.clone(), 2).unwrap();
+        let mut sink = ParquetSink::new(&schema_message, output_path.clone(), 2).unwrap();
 
         // Add some records
-        target
-            .add_record(Message::RECORD {
-                stream: "test".to_string(),
-                record: json!({
-                    "id": "1",
-                    "name": "Alice"
-                }),
-                version: 1,
-                time_extracted: None,
-            })
-            .unwrap();
+        sink.add_record(Message::RECORD {
+            stream: "test".to_string(),
+            record: json!({
+                "id": "1",
+                "name": "Alice"
+            }),
+            version: 1,
+            time_extracted: None,
+        })
+        .unwrap();
 
-        target
-            .add_record(Message::RECORD {
-                stream: "test".to_string(),
-                record: json!({
-                    "id": "2",
-                    "name": "Bob"
-                }),
-                version: 1,
-                time_extracted: None,
-            })
-            .unwrap();
+        sink.add_record(Message::RECORD {
+            stream: "test".to_string(),
+            record: json!({
+                "id": "2",
+                "name": "Bob"
+            }),
+            version: 1,
+            time_extracted: None,
+        })
+        .unwrap();
 
-        target.flush().unwrap();
+        sink.flush().unwrap();
 
         // Verify file exists and has content
         assert!(output_path.exists());

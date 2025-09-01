@@ -22,7 +22,7 @@ jobs:
   generate-pr:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Batch changes
       uses: miniscruff/changie-action@v2
       with:
